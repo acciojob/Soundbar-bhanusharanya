@@ -1,34 +1,26 @@
-//your JS code here. If required.
-document.addEventListener('DOMContentLoaded', () => {
-  const sounds = ['applause', 'boo', 'gasp','tada','victory','wrong','stop']; // Add your sound file names here
-  const buttonsContainer = document.getElementById('buttons');
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('.btn');
+    const stopButton = document.querySelector('.stop');
+    const audioPlayer = document.getElementById('audioPlayer');
 
-  // Function to create buttons for each sound
-  sounds.forEach(sound => {
-    const btn = document.createElement('button');
-    btn.className = 'btn';
-    btn.textContent = sound;
-    btn.addEventListener('click', () => playSound(sound));
-    buttonsContainer.appendChild(btn);
-  });
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            const soundFile = this.getAttribute('data-sound');
+            playSound(soundFile);
+        });
+    });
 
-  const stopBtn = document.querySelector('.stop');
-  stopBtn.addEventListener('click', stopSound);
+    stopButton.addEventListener('click', function() {
+        stopSound();
+    });
 
-  let currentSound = null;
-
-  // Function to play the sound
-  function playSound(sound) {
-    stopSound();
-    currentSound = new Audio(`./sounds/${sound}.mp3`);
-    currentSound.play();
-  }
-
-  // Function to stop the sound
-  function stopSound() {
-    if (currentSound) {
-      currentSound.pause();
-      currentSound.currentTime = 0;
+    function playSound(soundFile) {
+        audioPlayer.src = soundFile;
+        audioPlayer.play();
     }
-  }
+
+    function stopSound() {
+        audioPlayer.pause();
+        audioPlayer.currentTime = 0;
+    }
 });
